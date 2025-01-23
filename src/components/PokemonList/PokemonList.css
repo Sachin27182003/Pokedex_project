@@ -1,4 +1,30 @@
 .pokemon-list-wrapper{
     font-size: 20px;
-     margin: 2rem auto;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.pokemon-list{
+height: 80px;
+text-align: center;
+line-height: 50px;
+font-size: 30px;
+font-weight: bolder;
+
+}
+
+.pokemon-wrapper{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.pagination button{
+    padding: 0.35rem 1rem;
+    margin-left: 0.8rem;
 }

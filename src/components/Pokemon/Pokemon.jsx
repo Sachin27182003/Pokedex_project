@@ -1,9 +1,12 @@
-function Pokemon({name, img, Key}){
+import './Pokemon.css'
+function Pokemon({name, img, Id}){
  
     return(
-        <div>
-            <div>{Key} {name} </div>
-            <div><img src={img} /></div>
+        <div className='pokemon'>
+            <div className='pokemon-name'>{Id}. {name} </div>
+            <div className='pokemon-image-wrapper'>
+                <img className='pokemon-image' src={img} />
+            </div>
         </div>
     )
 }
