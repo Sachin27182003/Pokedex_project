@@ -22,6 +22,7 @@
 }
 
 .pokemon-image-wrapper{
+    cursor: pointer;
     height: 300px;
 }
 

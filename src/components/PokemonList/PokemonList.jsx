@@ -9,6 +9,7 @@ function PokemonList(){
     const [nextUrl, setNextUrl] = useState('');
     const [prevUrl, setPrevUrl] = useState('');
 
+   
 
     async function dawnloadPokemons(){
         setIsLoading(true);
@@ -53,10 +54,11 @@ function PokemonList(){
             <div className="pokemon-list">List of pokemons </div> 
             
             <div className="pokemon-wrapper" >
-                {(isLoading) ? 'Loading...' : pokemonList.map((pokemon, idx) => <Pokemon name={pokemon.name} img={pokemon.Image} Id={pokemon.Id} key={idx}/>)}
+                {(isLoading) ? 'Loading...' : pokemonList.map((pokemon) => <Pokemon name={pokemon.name} img={pokemon.Image} Id={pokemon.Id} key={pokemon.Id}/>)}
             </div>
         <div className="pagination">
             <button style={{display: isLoading ? 'none' : '' }} disabled={!prevUrl} onClick={()=> setpokedexUrl(prevUrl)}>prev</button>
+            
             <button style={{display: isLoading ? 'none' : '' }} disabled={!nextUrl} onClick={()=>setpokedexUrl(nextUrl)}>next</button>
         </div>    
         </div>
