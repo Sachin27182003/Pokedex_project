@@ -3,21 +3,33 @@ import axios from "axios";
 import './PokemonList.css';
 import Pokemon from "../Pokemon/Pokemon";
 function PokemonList(){
-    const [pokedexUrl, setpokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon')
-    const [pokemonList, setPokemonList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [nextUrl, setNextUrl] = useState('');
-    const [prevUrl, setPrevUrl] = useState('');
+    // const [pokedexUrl, setpokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon')
+    // const [pokemonList, setPokemonList] = useState([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [nextUrl, setNextUrl] = useState('');
+    // const [prevUrl, setPrevUrl] = useState('');
 
-   
+   const [pokemonListState, setPokemonListState] = useState({
+            pokemonList: [],
+            pokedexUrl: 'https://pokeapi.co/api/v2/pokemon',
+            isLoading: null,
+            nextUrl: '',
+            prevUrl: ''
+   });
 
     async function dawnloadPokemons(){
-        setIsLoading(true);
-        const response = await axios.get(pokedexUrl);  //this dawnloads list of 20 pokemons
-        //console.log(response);
-        setNextUrl(response.data.next);
-        setPrevUrl(response.data.previous);
+        //setIsLoading(true);
+        setPokemonListState((state)=> ({...state, isLoading: true}));
+        
+        const response = await axios.get(pokemonListState.pokedexUrl);  //this dawnloads list of 20 pokemons
 
+        // setNextUrl(response.data.next);
+        // setPrevUrl(response.data.previous);
+    
+        //setPokemonListState((state)=> ({...state, nextUrl: response.data.next, prevUrl: response.data.previous}));
+ 
+        //console.log(pokemonListState.nextUrl);
+        //console.log(pokemonListState.prevUrl);
         const pokemonResults = response.data.results; // we get the array of pokemon from results
 
         // Iterating over the array of pokemons, and using their url, to create an array of promises
@@ -39,27 +51,31 @@ function PokemonList(){
             }
         });
 
-        //console.log(result);
-        setPokemonList(result);
+        // setPokemonList(result);
+        // setIsLoading(false);
 
-        setIsLoading(false);
+        setPokemonListState((state)=> ({...state, pokemonList: result, isLoading: false, nextUrl: response.data.next, prevUrl: response.data.previous }));
     }
     useEffect(() => {
         dawnloadPokemons();
-    }, [pokedexUrl])
+    }, [pokemonListState.pokedexUrl])
 
+    console.log(pokemonListState);
 
     return (
         <div className="pokemon-list-wrapper">
             <div className="pokemon-list">List of pokemons </div> 
             
             <div className="pokemon-wrapper" >
-                {(isLoading) ? 'Loading...' : pokemonList.map((pokemon) => <Pokemon name={pokemon.name} img={pokemon.Image} Id={pokemon.Id} key={pokemon.Id}/>)}
+                {(pokemonListState.isLoading) ? 'Loading...' : pokemonListState.pokemonList.map((pokemon) => <Pokemon name={pokemon.name} img={pokemon.Image} Id={pokemon.Id} key={pokemon.Id}/>)}
             </div>
         <div className="pagination">
-            <button style={{display: isLoading ? 'none' : '' }} disabled={!prevUrl} onClick={()=> setpokedexUrl(prevUrl)}>prev</button>
+            {/* <button style={{display: pokemonListState.isLoading ? 'none' : '' }} disabled={!pokemonListState.prevUrl} onClick={()=> setpokedexUrl(prevUrl)}>prev</button> */}
+            <button style={{display: pokemonListState.isLoading ? 'none' : '' }} disabled={!pokemonListState.prevUrl} onClick={()=> setPokemonListState((state)=>({...state, pokedexUrl: state.prevUrl}))}>prev</button>
             
-            <button style={{display: isLoading ? 'none' : '' }} disabled={!nextUrl} onClick={()=>setpokedexUrl(nextUrl)}>next</button>
+            
+            {/* <button style={{display: pokemonListState.isLoading ? 'none' : '' }} disabled={!pokemonListState.nextUrl} onClick={()=>setpokedexUrl(nextUrl)}>next</button> */}
+            <button style={{display: pokemonListState.isLoading ? 'none' : '' }} disabled={!pokemonListState.nextUrl} onClick={()=> setPokemonListState((state)=> ({...state, pokedexUrl: state.nextUrl}))}>next</button>
         </div>    
         </div>
     )

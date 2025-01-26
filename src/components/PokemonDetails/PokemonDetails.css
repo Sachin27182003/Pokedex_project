@@ -26,11 +26,13 @@
 .pokemon-details-types{
 display: grid;
 margin-top: 0.5rem;
+
 }
 
 .pokemon-details-types > li {
-    border: 1px solid gainsboro;
+    margin-left: 3rem;
+    /* border: 1px solid gainsboro; */
     font-size: large;
-    background-color: gainsboro;
+    /* background-color: gainsboro; */
     padding: 0.8%;
 }
